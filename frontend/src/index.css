@@ -1,0 +1,19 @@
+* {
+  font-family: "Pretendard Variable", Pretendard, -apple-system,
+    BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI",
+    "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+}
+@font-face {
+	font-family: "googleSingleDay";
+	src: url(./assets/font/Single_Day/SingleDay-Regular.ttf);
+}
+@font-face {
+	font-family: "googleGugi";
+	src: url(./assets/font/Gugi/Gugi-Regular.ttf);
+}
+html,
+body {
+  padding: 0;
+  margin: 0;
+}

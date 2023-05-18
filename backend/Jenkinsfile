@@ -1,0 +1,47 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('start') {
+            steps {
+                // 작업 위치 확인
+                sh 'pwd'
+                sh 'ls'
+
+                // gradlew 권한 설정
+                sh 'chmod +x ./backend/gradlew'
+
+                // 이전 .jar 파일을 삭제하고 새로운 .jar 파일 생성: clean 이후 build 진행
+                sh 'cd backend && pwd && ./gradlew clean build'
+            }
+        }
+
+        stage('spring build') {
+            steps {
+                // spring 빌드
+                sh 'docker build -t baekgu-spring:0.0.1 ./backend/.'
+                sh 'sudo docker stop $(sudo docker ps -aq --filter network=redis-net)'
+            }
+        }
+
+        stage('run redis network & server') {
+            steps {
+                // newtork 갱신
+                sh 'docker network rm -f redis-net && sudo docker network create redis-net'
+
+                // bc1-redis 컨테이너 실행
+                sh 'docker rm -f bc1-redis && docker run --name bc1-redis -p 6379:6379 --network redis-net -d redis:latest redis-server --appendonly yes'
+
+                // redis 서버 실행 여부 확인
+                sh 'docker run -i --network redis-net --rm redis:latest redis-cli -h bc1-redis <<EOF\nconfig set requirepass ssafy3542\nauth ssafy3542\nexit\nEOF'
+            }
+        }
+
+        stage('run spring boot') {
+            steps {
+                // spring 실행
+                sh 'docker rm -f bc1-spring && sudo docker run --name bc1-spring -p 9999:9999 -d --network redis-net baekgu-spring:0.0.1'
+            }
+        }
+    }
+}
