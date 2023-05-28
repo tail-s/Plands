@@ -91,6 +91,8 @@ HOST=localhost PORT=1234 YPERSISTENCE=./dbDir node ./node_modules/y-websocket/bi
 - 여행계획 작성 세션 페이지 (WebRTC + CRDT)
 - 여행계획 템플릿 PDF 변환
 
+#### 실행 방법
+
 ```sh
 # npm dependency 추가
 npm install
@@ -106,17 +108,97 @@ npm run start
 
 ### Backend
 
-```sh
+- 유저와 팀(계획 참여자)별 CRUD
+- Redis를 이용한 JWT 토큰 운용
+- SMTP, BCryptPasswordEncoder를 이용한 비밀번호 암호화/재발급
+- Spring Security를 이용한 권한 처리
 
+#### 실행 방법
+
+```
+# build.gradle 이동 => gradle build 클릭
+
+# gradle bootRun or BaekguApplication.java 이동 후 Run
+```
+
+트리 구조
+
+```
+└─main
+    ├─java
+    │  └─com
+    │      └─ssafy
+    │          ├─api
+    │          │  ├─controller
+    │          │  └─service
+    │          └─common
+    │              ├─aop
+    │              ├─config
+    │              │  ├─etc
+    │              │  └─filter
+    │              ├─db
+    │              │  ├─dto
+    │              │  │  ├─request
+    │              │  │  └─response
+    │              │  ├─entity
+    │              │  └─repository
+    │              │      └─support
+    │              ├─exception
+    │              └─util
+    │                  ├─common
+    │                  ├─encoder
+    │                  └─etc
+    └─resources
 ```
 
 ---
 
-### Main Feature 데모 화면
+### 메인페이지 및 로그인 페이지
+
+- 해당 서비스 소개 및 회원 등록 기능
+- JWT토큰을 사용해 사용자는 로그인을 하고 다른 서비스를 이용할 수 있습니다.
+
+<span align="center">
+
+![](./images/gi1.gif)
+
+</span>
+
+---
+
+### 회원관리 페이지 및 정보 수정
+
+- 각각의 회원은 마이페이지에서 자신의 정보를 수정할 수 있습니다.
+
+<span align="center">
+
+![](./images/gi3.gif)
+
+</span>
+
+---
+
+### 여행계획 작성 페이지 (동시편집 및 WebRTC)
+
+- 생성한 여행계획 내에서 사용자들은 화상채팅을 할 수 있습니다.(WebRTC - OpenVidu)
+- 서로가 동시에 텍스트를 작성하여도 텍스트가 깨지지 않고 템플릿에 반영됩니다.(CRDT - Y.js)
 
 <span align="center">
 
 ![](./images/mainfeat.png)
+![](./images/gi4.gif)
+
+</span>
+
+---
+
+### 여행계획 템플릿 PDF 다운로드 기능
+
+- 각각의 여행계획에 대해 PDF로 다운로드 받는 기능을 제공합니다.
+
+<span align="center">
+
+![](./images/gi2.gif)
 
 </span>
 
